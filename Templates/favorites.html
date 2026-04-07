@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Favorites</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+<h1>❤️ Favorite Recipes</h1>
+
+{% if data %}
+<div class="grid">
+{% for item in data %}
+    <div class="card">
+        <img src="{{ item[2] }}">
+        <h3>{{ item[1] }}</h3>
+
+        <div class="actions">
+            <a href="/delete/{{ item[0] }}" class="btn">❌ Remove</a>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% else %}
+    <h3>No favorites yet 😅</h3>
+{% endif %}
+
+<a href="/">⬅ Back</a>
+
+</div>
+
+</body>
+</html>

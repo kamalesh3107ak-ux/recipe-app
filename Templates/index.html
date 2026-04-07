@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="top-bar">
+        <h1>🍳 Recipe Finder</h1>
+        <button onclick="toggleDarkMode()">🌙</button>
+    </div>
+
+    <form method="POST">
+        <input type="text" name="dish" placeholder="Search recipes..." required>
+        <button type="submit">Search</button>
+    </form>
+
+    <a href="/favorites">❤️ View Favorites</a>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    <div class="grid">
+        {% for recipe in recipes %}
+        <div class="card">
+            <img src="{{ recipe.image }}">
+            <h3>{{ recipe.name }}</h3>
+
+            <div class="actions">
+                <a href="/recipe/{{ recipe.id }}" class="btn">View</a>
+
+                <form action="/favorite" method="POST">
+                    <input type="hidden" name="id" value="{{ recipe.id }}">
+                    <input type="hidden" name="name" value="{{ recipe.name }}">
+                    <input type="hidden" name="image" value="{{ recipe.image }}">
+
+                    <button class="btn save">❤️ Save</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<!-- 🌙 DARK MODE SCRIPT -->
+<script>
+function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark")) {
+        localStorage.setItem("mode", "dark");
+    } else {
+        localStorage.setItem("mode", "light");
+    }
+}
+
+window.onload = function () {
+    if (localStorage.getItem("mode") === "dark") {
+        document.body.classList.add("dark");
+    }
+}
+</script>
+
+</body>
+</html>
